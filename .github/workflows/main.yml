@@ -1,0 +1,19 @@
+name: CI Pipeline
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Start PostgreSQL
+        run: docker run --name mydb -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres
+
+      - name: Wait for DB
+        run: sleep 10
+
+      - name: Run script
+        run: bash setup.sh
